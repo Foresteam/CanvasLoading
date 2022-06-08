@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"module": "ESNext",
+		"target": "ES5",
+		"lib": ["ESNext", "DOM"],
+		"noImplicitAny": true,
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"moduleResolution": "Classic",
+		"esModuleInterop": true,
+		"outDir": "dst"
+	},
+	"ts-node": {
+		"esm": true
+	},
+	"files": [
+		"src/index.ts",
+	]
+}
