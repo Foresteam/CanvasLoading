@@ -1,7 +1,5 @@
-export interface Point {
-	x: number;
-	y: number;
-};
+import { Point } from './Basics';
+
 export class Vector implements Point {
 	x: number;
 	y: number;
@@ -80,7 +78,6 @@ export class Vector implements Point {
 				i++;
 			}
 		}
-		console.log(points);
 		let x = points.reduce((p, v) => p + v.x, 0) / points.length;
 		let y = points.reduce((p, v) => p + v.y, 0) / points.length;
 		return new Vector({ x, y });

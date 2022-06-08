@@ -1,40 +1,5 @@
-import { Point, Vector } from './Vector';
-
-interface Renderable {
-	Render: (ctx: CanvasRenderingContext2D) => void;
-}
-interface Segment {
-	0: Vector;
-	1: Vector;
-}
-class Line implements Renderable {
-	points: Vector[];
-	color: string;
-	fill: string;
-	constructor(points: Point[], color = '#FFF', fill: string = null) {
-		this.points = points.map(p => new Vector(p));
-		this.color = color;
-		this.fill = fill;
-	}
-	Render(ctx: CanvasRenderingContext2D) {
-		ctx.beginPath();
-		for (let [k, v] of Object.entries(this.points))
-			(Number(k) == 0 ? ctx.moveTo : ctx.lineTo).call(ctx, v.x, v.y);
-		ctx.strokeStyle = this.color;
-		ctx.stroke();
-		if (this.fill)
-			ctx.fill();
-		ctx.closePath();
-	}
-	/** @param ang Angle in degrees */
-	Rotate(ang: number) {
-		let center = Vector.Median(this.points);
-		this.points = this.points.map(p => p.Rotate(ang, center));
-	}
-	GetSegments(): Segment[] {
-		return this.points.map((v, i) => i > 0 && [this.points[i - 1], v] as Segment).filter(v => !!v);
-	}
-}
+import { Vector } from './Vector';
+import { Line } from './Line';
 
 /** @returns A point on the segment */
 const pointOnSegment = (to: Vector, begin: Vector, end: Vector): Vector => {
@@ -42,7 +7,6 @@ const pointOnSegment = (to: Vector, begin: Vector, end: Vector): Vector => {
 	let a = [begin.Sub(to), end.Sub(to)];
 	let b = end.Sub(begin);
 	let ang = Math.min(...a.map(_a => Vector.Angle(_a, b)));
-	console.log(ang * 180 / Math.PI)
 	
 	// the function here defines the lines' behavior
 	return m.Add(b.Div(2).Mul(Math.tan(ang)));
@@ -91,6 +55,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.requestAnimationFrame(animation)
 	};
 	window.requestAnimationFrame(animation);
-	
-	console.log(1)
 });
